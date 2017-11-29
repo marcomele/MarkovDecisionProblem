@@ -21,7 +21,7 @@ class MDP(object):
 			Applies the value iteration algorithm to compute the expected utility for the states in this MDP. Produces the array u containing the computed value for each state.
 		"""
 		for state in self.states:
-			self.u[state] = 0
+			self.u[state] = 0 if self.rewards[state] is not None else None
 		delta_stop = self.max_err * (1 - self.gamma) / self.gamma
 		delta = delta_stop
 		while delta >= delta_stop:
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
 	print "Generated values"
 	print "--------------------"
-	print "\n".join((str(state) + ": " + str(round(problem.u[state], 2))) for state in problem_states)
+	print "\n".join((str(state) + ": " + (str(round(problem.u[state], 2) if problem_rewards[state] is not None else None)) for state in problem_states))
 	print "\nPolicy"
 	print "--------------------"
 	print "\n".join((str(state) + " --> " + str(problem.policy[state] if problem.rewards[state] else None)) for state in problem_states)
